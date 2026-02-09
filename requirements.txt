@@ -1,0 +1,14 @@
+Flask
+Flask-Login
+Flask-Mail
+Flask-Session
+google-play-scraper
+textblob
+pandas
+matplotlib
+wordcloud
+reportlab
+numpy
+scikit-learn
+python-dotenv
+Werkzeug
