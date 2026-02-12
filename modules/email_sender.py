@@ -11,6 +11,8 @@ from email.mime.application import MIMEApplication
 from datetime import datetime
 from typing import Dict
 import logging
+from modules.report_generator import RISK_ADVICE_UI
+from config import Config
 
 # Import disclaimer constants from report_generator for consistency
 from modules.report_generator import DISCLAIMER_TEXT, DISCLAIMER_LINK
@@ -71,6 +73,15 @@ def send_analysis_email(
         bool: True if email sent successfully, False otherwise.
     """
     try:
+        # Load credentials from Config if not provided
+        if not sender_email:
+            sender_email = Config.MAIL_USERNAME
+        if not sender_password:
+            sender_password = Config.MAIL_PASSWORD
+        if not smtp_server:
+            smtp_server = Config.MAIL_SERVER
+        if not smtp_port:
+            smtp_port = Config.MAIL_PORT
         # Create message
         msg = MIMEMultipart()
         msg['From'] = sender_email

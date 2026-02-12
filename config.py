@@ -20,12 +20,12 @@ class Config:
     
     # Email configuration
     # Email configuration (can be overridden via environment variables)
-    MAIL_SERVER = os.environ.get('MAIL_SERVER', 'mail.lusule.com')
+    MAIL_SERVER = os.environ.get('MAIL_SERVER', 'mail.shule.com')
     MAIL_PORT = int(os.environ.get('MAIL_PORT', 587))
     MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', 'True').lower() in ['true', '1', 't']
     # Default SMTP credentials provided (override with env vars if needed)
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME', 'email@example.com')
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD', 'Password_user')
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME', 'info@shule.com')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD', 'Strong_PassWD')
     MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER', MAIL_USERNAME)
     
     # App settings

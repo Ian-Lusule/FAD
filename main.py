@@ -303,6 +303,22 @@ def analyze_direct(app_id):
         all_text = " ".join(df['content'].dropna().astype(str)) if 'content' in df.columns else ""
         wordcloud = create_wordcloud_image(all_text)
         
+        # Ensure classification metrics are JSON-serializable (dicts/lists), not SimpleNamespace
+        def ns_to_plain(o):
+            if isinstance(o, dict):
+                return {k: ns_to_plain(v) for k, v in o.items()}
+            if isinstance(o, list):
+                return [ns_to_plain(v) for v in o]
+            # SimpleNamespace or other objects with __dict__
+            if hasattr(o, '__dict__'):
+                try:
+                    return ns_to_plain(vars(o))
+                except Exception:
+                    return str(o)
+            return o
+
+        serializable_classification_metrics = ns_to_plain(classification_metrics)
+
         # Save analysis to a server-side JSON file and store a small pointer in session
         analysis_payload = {
             'app_id': app_id,
@@ -311,7 +327,7 @@ def analyze_direct(app_id):
             'trend_dict': trend_df.to_dict() if not trend_df.empty else {},
             'sentiment_counts': sentiment_counts.to_dict() if not sentiment_counts.empty else {},
             'metrics_summary': {'positive_pct': pos_pct, 'negative_pct': neg_pct, 'app_rating_score': rating_score},
-            'classification_metrics': classification_metrics,
+            'classification_metrics': serializable_classification_metrics,
             'fraud_threshold': fraud_threshold,
             'all_text': all_text,
             'saved_at': datetime.now().isoformat()
